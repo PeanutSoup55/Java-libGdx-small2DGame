@@ -48,10 +48,6 @@ public class Player {
     private Vector2 renderPosition; // Screen position (isometric projection)
     private Direction currentDirection;
 
-    private ObjectLayer collisionLayer;
-    private float collisionHeight;
-    private float collisionWidth;
-
     public Player(float x, float y) {
         position = new Vector2(x, y);
         renderPosition = new Vector2();
@@ -61,16 +57,8 @@ public class Player {
         updateRenderPosition();
     }
 
-    public void setCollisionLayer(ObjectLayer layer){
-        this.collisionLayer = layer;
-    }
-    public void setCollisionBox(float width, float height){
-        this.collisionWidth = width;
-        this.collisionHeight = height;
-    }
-
     private void loadSpriteSheet() {
-        spriteSheet = new Texture(Gdx.files.internal("FullBdy2.png"));
+        spriteSheet = new Texture(Gdx.files.internal("FullBdy.png"));
 
         frames = new TextureRegion[2][4];
 
@@ -84,7 +72,7 @@ public class Player {
                 FRAME_HEIGHT
             );
         }
-
+//this project is pising me off
         // Row 1 - diagonal directions (bottom row of sprite sheet)
         // These sprites start at y=48
         for (int col = 0; col < 4; col++) {
@@ -155,8 +143,8 @@ public class Player {
         else if (down) currentDirection = Direction.DOWN;
         else if (left) currentDirection = Direction.LEFT;
         else if (right) currentDirection = Direction.RIGHT;
-
     }
+
 
     private void updateRenderPosition() {
         renderPosition.x = (position.x - position.y);
@@ -164,6 +152,9 @@ public class Player {
     }
 
     public void render(SpriteBatch batch) {
+        // Draw the character centered at render position
+        // Use renderPosition instead of position for correct isometric placement
+        // Scale up the sprite for better visibility (multiply by 2 for 64x96 pixels)
         batch.draw(
             currentFrame,
             renderPosition.x - FRAME_WIDTH, // Center horizontally
